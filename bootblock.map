@@ -1,4 +1,15 @@
 
+Merging program properties
+
+Removed property 0xc0000002 to merge bootmain.o (0x3) and bootasm.o (not found)
+
+Discarded input sections
+
+ .note.GNU-stack
+                0x0000000000000000        0x0 bootmain.o
+ .note.gnu.property
+                0x0000000000000000       0x1c bootmain.o
+
 Memory Configuration
 
 Name             Origin             Length             Attributes
@@ -10,7 +21,7 @@ Address of section .text set to 0x7c00
 LOAD bootasm.o
 LOAD bootmain.o
                 [!provide]                        PROVIDE (__executable_start = SEGMENT_START ("text-segment", 0x8048000))
-                0x0000000008048054                . = (SEGMENT_START ("text-segment", 0x8048000) + SIZEOF_HEADERS)
+                0x0000000008048074                . = (SEGMENT_START ("text-segment", 0x8048000) + SIZEOF_HEADERS)
 
 .interp
  *(.interp)
@@ -69,9 +80,9 @@ LOAD bootmain.o
 .rel.dtors
  *(.rel.dtors)
 
-.rel.got        0x0000000008048054        0x0
+.rel.got        0x0000000008048074        0x0
  *(.rel.got)
- .rel.got       0x0000000008048054        0x0 bootasm.o
+ .rel.got       0x0000000008048074        0x0 bootasm.o
 
 .rel.bss
  *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
@@ -79,23 +90,20 @@ LOAD bootmain.o
 .rel.ifunc
  *(.rel.ifunc)
 
-.rel.plt        0x0000000008048054        0x0
+.rel.plt        0x0000000008048074        0x0
  *(.rel.plt)
                 [!provide]                        PROVIDE (__rel_iplt_start = .)
  *(.rel.iplt)
- .rel.iplt      0x0000000008048054        0x0 bootasm.o
+ .rel.iplt      0x0000000008048074        0x0 bootasm.o
                 [!provide]                        PROVIDE (__rel_iplt_end = .)
-
-.relr.dyn
- *(.relr.dyn)
 
 .init
  *(SORT_NONE(.init))
 
-.plt            0x0000000008048054        0x0
+.plt            0x0000000008048074        0x0
  *(.plt)
  *(.iplt)
- .iplt          0x0000000008048054        0x0 bootasm.o
+ .iplt          0x0000000008048074        0x0 bootasm.o
 
 .plt.got
  *(.plt.got)
@@ -103,7 +111,7 @@ LOAD bootmain.o
 .plt.sec
  *(.plt.sec)
 
-.text           0x0000000000007c00      0x1c3
+.text           0x0000000000007c00      0x1d3
  *(.text.unlikely .text.*_unlikely .text.unlikely.*)
  *(.text.exit .text.exit.*)
  *(.text.startup .text.startup.*)
@@ -112,11 +120,11 @@ LOAD bootmain.o
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text          0x0000000000007c00       0x7e bootasm.o
                 0x0000000000007c00                start
- .text          0x0000000000007c7e      0x145 bootmain.o
+ .text          0x0000000000007c7e      0x155 bootmain.o
                 0x0000000000007c7e                waitdisk
-                0x0000000000007c8c                readsect
-                0x0000000000007cf4                readseg
-                0x0000000000007d3d                bootmain
+                0x0000000000007c90                readsect
+                0x0000000000007cfc                readseg
+                0x0000000000007d49                bootmain
  *(.gnu.warning)
 
 .fini
@@ -135,8 +143,9 @@ LOAD bootmain.o
  *(.eh_frame_hdr)
  *(.eh_frame_entry .eh_frame_entry.*)
 
-.eh_frame
+.eh_frame       0x0000000000007dd4       0xb0
  *(.eh_frame)
+ .eh_frame      0x0000000000007dd4       0xb0 bootmain.o
  *(.eh_frame.*)
 
 .gcc_except_table
@@ -147,7 +156,7 @@ LOAD bootmain.o
 
 .exception_ranges
  *(.exception_ranges*)
-                0x0000000000007dc3                . = .
+                0x0000000000007e84                . = .
 
 .eh_frame
  *(.eh_frame)
@@ -162,7 +171,7 @@ LOAD bootmain.o
 .exception_ranges
  *(.exception_ranges*)
 
-.tdata          0x0000000000007dc3        0x0
+.tdata          0x0000000000007e84        0x0
                 [!provide]                        PROVIDE (__tdata_start = .)
  *(.tdata .tdata.* .gnu.linkonce.td.*)
 
@@ -170,18 +179,18 @@ LOAD bootmain.o
  *(.tbss .tbss.* .gnu.linkonce.tb.*)
  *(.tcommon)
 
-.preinit_array  0x0000000000007dc3        0x0
+.preinit_array  0x0000000000007e84        0x0
                 [!provide]                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
                 [!provide]                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0000000000007dc3        0x0
+.init_array     0x0000000000007e84        0x0
                 [!provide]                        PROVIDE (__init_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
                 [!provide]                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x0000000000007dc3        0x0
+.fini_array     0x0000000000007e84        0x0
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
@@ -211,40 +220,40 @@ LOAD bootmain.o
 .dynamic
  *(.dynamic)
 
-.got            0x0000000000007dc4        0x0
+.got            0x0000000000007e84        0x0
  *(.got)
- .got           0x0000000000007dc4        0x0 bootasm.o
+ .got           0x0000000000007e84        0x0 bootasm.o
  *(.igot)
 
-.got.plt        0x0000000000007dc4        0x0
+.got.plt        0x0000000000007e84        0x0
  *(.got.plt)
- .got.plt       0x0000000000007dc4        0x0 bootasm.o
+ .got.plt       0x0000000000007e84        0x0 bootasm.o
  *(.igot.plt)
- .igot.plt      0x0000000000007dc4        0x0 bootasm.o
+ .igot.plt      0x0000000000007e84        0x0 bootasm.o
 
-.data           0x0000000000007dc3        0x0
+.data           0x0000000000007e84        0x0
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x0000000000007dc3        0x0 bootasm.o
- .data          0x0000000000007dc3        0x0 bootmain.o
+ .data          0x0000000000007e84        0x0 bootasm.o
+ .data          0x0000000000007e84        0x0 bootmain.o
 
 .data1
  *(.data1)
-                0x0000000000007dc3                _edata = .
+                0x0000000000007e84                _edata = .
                 [!provide]                        PROVIDE (edata = .)
-                0x0000000000007dc3                . = .
-                0x0000000000007dc3                __bss_start = .
+                0x0000000000007e84                . = .
+                0x0000000000007e84                __bss_start = .
 
-.bss            0x0000000000007dc3        0x0
+.bss            0x0000000000007e84        0x0
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x0000000000007dc3        0x0 bootasm.o
- .bss           0x0000000000007dc3        0x0 bootmain.o
+ .bss           0x0000000000007e84        0x0 bootasm.o
+ .bss           0x0000000000007e84        0x0 bootmain.o
  *(COMMON)
-                0x0000000000007dc3                . = ALIGN ((. != 0x0)?0x4:0x1)
-                0x0000000000007dc4                . = ALIGN (0x4)
-                0x0000000000007dc4                . = SEGMENT_START ("ldata-segment", .)
-                0x0000000000007dc4                . = ALIGN (0x4)
-                0x0000000000007dc4                _end = .
+                0x0000000000007e84                . = ALIGN ((. != 0x0)?0x4:0x1)
+                0x0000000000007e84                . = ALIGN (0x4)
+                0x0000000000007e84                . = SEGMENT_START ("ldata-segment", .)
+                0x0000000000007e84                . = ALIGN (0x4)
+                0x0000000000007e84                _end = .
                 [!provide]                        PROVIDE (end = .)
 
 .stab
@@ -265,10 +274,10 @@ LOAD bootmain.o
 .stab.indexstr
  *(.stab.indexstr)
 
-.comment        0x0000000000000000       0x12
+.comment        0x0000000000000000       0x2b
  *(.comment)
- .comment       0x0000000000000000       0x12 bootmain.o
-                                         0x13 (size before relaxing)
+ .comment       0x0000000000000000       0x2b bootmain.o
+                                         0x2c (size before relaxing)
 
 .gnu.build.attributes
  *(.gnu.build.attributes .gnu.build.attributes.*)
@@ -295,33 +304,33 @@ LOAD bootmain.o
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000      0x585
+.debug_info     0x0000000000000000      0x5d2
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x0000000000000000       0x24 bootasm.o
- .debug_info    0x0000000000000024      0x561 bootmain.o
+ .debug_info    0x0000000000000000       0x26 bootasm.o
+ .debug_info    0x0000000000000026      0x5ac bootmain.o
 
-.debug_abbrev   0x0000000000000000      0x23c
+.debug_abbrev   0x0000000000000000      0x22c
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0x14 bootasm.o
- .debug_abbrev  0x0000000000000014      0x228 bootmain.o
+ .debug_abbrev  0x0000000000000014      0x218 bootmain.o
 
-.debug_line     0x0000000000000000      0x283
+.debug_line     0x0000000000000000      0x29a
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x0000000000000000       0x67 bootasm.o
- .debug_line    0x0000000000000067      0x21c bootmain.o
+ .debug_line    0x0000000000000000       0x5b bootasm.o
+ .debug_line    0x000000000000005b      0x23f bootmain.o
 
-.debug_frame    0x0000000000000000       0xa8
+.debug_frame
  *(.debug_frame)
- .debug_frame   0x0000000000000000       0xa8 bootmain.o
 
-.debug_str      0x0000000000000000      0x1e6
+.debug_str      0x0000000000000000      0x21f
  *(.debug_str)
- .debug_str     0x0000000000000000       0x42 bootasm.o
- .debug_str     0x0000000000000042      0x1a4 bootmain.o
-                                        0x1b6 (size before relaxing)
+ .debug_str     0x0000000000000000       0x2d bootasm.o
+ .debug_str     0x000000000000002d      0x1f2 bootmain.o
+                                        0x21b (size before relaxing)
 
-.debug_loc
+.debug_loc      0x0000000000000000      0x2bb
  *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x2bb bootmain.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -341,45 +350,15 @@ LOAD bootmain.o
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges
+.debug_ranges   0x0000000000000000       0x78
  *(.debug_ranges)
-
-.debug_addr
- *(.debug_addr)
-
-.debug_line_str
-                0x0000000000000000       0x55
- *(.debug_line_str)
- .debug_line_str
-                0x0000000000000000       0x36 bootasm.o
-                                         0x40 (size before relaxing)
- .debug_line_str
-                0x0000000000000036       0x1f bootmain.o
-                                         0x8d (size before relaxing)
-
-.debug_loclists
-                0x0000000000000000      0x18d
- *(.debug_loclists)
- .debug_loclists
-                0x0000000000000000      0x18d bootmain.o
+ .debug_ranges  0x0000000000000000       0x78 bootmain.o
 
 .debug_macro
  *(.debug_macro)
 
-.debug_names
- *(.debug_names)
-
-.debug_rnglists
-                0x0000000000000000       0x33
- *(.debug_rnglists)
- .debug_rnglists
-                0x0000000000000000       0x33 bootmain.o
-
-.debug_str_offsets
- *(.debug_str_offsets)
-
-.debug_sup
- *(.debug_sup)
+.debug_addr
+ *(.debug_addr)
 
 .gnu.attributes
  *(.gnu.attributes)

@@ -85,9 +85,6 @@ LOAD initcode.o
  .rel.iplt      0x0000000008048054        0x0 initcode.o
                 [!provide]                        PROVIDE (__rel_iplt_end = .)
 
-.relr.dyn
- *(.relr.dyn)
-
 .init
  *(SORT_NONE(.init))
 
@@ -283,24 +280,24 @@ LOAD initcode.o
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000       0x24
+.debug_info     0x0000000000000000       0x26
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x0000000000000000       0x24 initcode.o
+ .debug_info    0x0000000000000000       0x26 initcode.o
 
 .debug_abbrev   0x0000000000000000       0x14
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0x14 initcode.o
 
-.debug_line     0x0000000000000000       0x4c
+.debug_line     0x0000000000000000       0x41
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x0000000000000000       0x4c initcode.o
+ .debug_line    0x0000000000000000       0x41 initcode.o
 
 .debug_frame
  *(.debug_frame)
 
-.debug_str      0x0000000000000000       0x43
+.debug_str      0x0000000000000000       0x2e
  *(.debug_str)
- .debug_str     0x0000000000000000       0x43 initcode.o
+ .debug_str     0x0000000000000000       0x2e initcode.o
 
 .debug_loc
  *(.debug_loc)
@@ -326,33 +323,11 @@ LOAD initcode.o
 .debug_ranges
  *(.debug_ranges)
 
-.debug_addr
- *(.debug_addr)
-
-.debug_line_str
-                0x0000000000000000       0x37
- *(.debug_line_str)
- .debug_line_str
-                0x0000000000000000       0x37 initcode.o
-                                         0x42 (size before relaxing)
-
-.debug_loclists
- *(.debug_loclists)
-
 .debug_macro
  *(.debug_macro)
 
-.debug_names
- *(.debug_names)
-
-.debug_rnglists
- *(.debug_rnglists)
-
-.debug_str_offsets
- *(.debug_str_offsets)
-
-.debug_sup
- *(.debug_sup)
+.debug_addr
+ *(.debug_addr)
 
 .gnu.attributes
  *(.gnu.attributes)
