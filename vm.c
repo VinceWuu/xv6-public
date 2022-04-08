@@ -395,7 +395,7 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 int
 mprotect(void *addr, int len){
   struct proc *cur = myproc();
-  if ((uint)addr >= cur -> sz || (uint)addr + len >= cur -> sz) return -1;
+  if ((uint)addr >= cur -> vbase || (uint)addr + len >= cur -> vlimit) return -1;
 
   char *a, *last;
   pte_t *pte;
@@ -414,7 +414,7 @@ mprotect(void *addr, int len){
 int 
 munprotect(void *addr, int len){
   struct proc *cur = myproc();
-  if ((uint)addr >= cur -> sz || (uint)addr + len >= cur -> sz) return -1;
+  if ((uint)addr >= cur -> vbase || (uint)addr + len >= cur -> vlimit) return -1;
 
   char *a, *last;
   pte_t *pte;
