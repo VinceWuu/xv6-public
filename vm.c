@@ -391,26 +391,26 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
   }
   return 0;
 }
-
+// change the protection bits of parts of the page table to be read-only
 int
 mprotect(void *addr, int len){
-  struct proc *cur = myproc();
+  struct proc *cur = myproc();//disable interrupts
   if ((uint)addr >= cur -> vbase || (uint)addr + len >= cur -> vlimit) return -1;
 
   char *a, *last;
   pte_t *pte;
-  a = (char *)PGROUNDDOWN((uint)addr);
-  last = (char *)PGROUNDDOWN(((uint)addr) + len - 1);
+  a = (char *)PGROUNDDOWN((uint)addr);//defin begin
+  last = (char *)PGROUNDDOWN(((uint)addr) + len - 1);//defin end
   for(;;){
     if((pte = walkpgdir(cur -> pgdir, a, 0)) == 0) return -1;
-    *pte &= ~PTE_W;
+    *pte &= ~PTE_W;//update pte
     if(a >= last) break;
     a += PGSIZE;
   }
-  lcr3(V2P(cur -> pgdir));
+  lcr3(V2P(cur -> pgdir));//swith to a new address space
   return 0;
 }
-
+// change the protection bits of parts of the page table to be read-write
 int 
 munprotect(void *addr, int len){
   struct proc *cur = myproc();
@@ -418,15 +418,15 @@ munprotect(void *addr, int len){
 
   char *a, *last;
   pte_t *pte;
-  a = (char *)PGROUNDDOWN((uint)addr);
-  last = (char *)PGROUNDDOWN(((uint)addr) + len - 1);
+  a = (char *)PGROUNDDOWN((uint)addr);//defin begin
+  last = (char *)PGROUNDDOWN(((uint)addr) + len - 1);//defin end
   for(;;){
     if((pte = walkpgdir(cur -> pgdir, a, 0)) == 0) return -1;
-    *pte |= ~PTE_W;
+    *pte |= ~PTE_W;//update pte
     if(a >= last) break;
     a += PGSIZE;
   }
-  lcr3(V2P(cur -> pgdir));
+  lcr3(V2P(cur -> pgdir));//swith to a new address space
   return 0;
 }
 

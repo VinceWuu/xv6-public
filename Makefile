@@ -191,6 +191,7 @@ UPROGS := \
 	_usertests\
 	_wc\
 	_zombie\
+	_byteProtect\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
